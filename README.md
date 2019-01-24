@@ -1,4 +1,4 @@
-# homeassistant-files
+# home-assistant.io & NodeMCU files
 My home-assistant.io configuration & NodeMCU files 
 
 Home-assitant.io
