@@ -6,7 +6,7 @@
     - ESP8266 core for Arduino : https://github.com/esp8266/Arduino
     - PubSubClient : https://github.com/knolleary/pubsubclient
     - DHT : https://github.com/adafruit/DHT-sensor-library
-    - ArduinoJson : https://github.com/bblanchon/ArduinoJson
+    - ArduinoJson6: https://github.com/bblanchon/ArduinoJson
 
 
    Samuel M. - v1.1 - 08.2016
@@ -55,12 +55,14 @@ PubSubClient client(wifiClient);
 void publishData(float p_temperature, float p_humidity) {
   // create a JSON object
   // doc : https://github.com/bblanchon/ArduinoJson/wiki/API%20Reference
-  StaticJsonBuffer<200> jsonBuffer;
-  JsonObject& root = jsonBuffer.createObject();
+  const size_t CAPACITY = JSON_OBJECT_SIZE(128); //MQTT_MAX_PACKET_SIZE
+  StaticJsonDocument<CAPACITY> jsonBuffer;
+  JsonObject root = jsonBuffer.to<JsonObject>();
+  
   // INFO: the data must be converted into a string; a problem occurs when using floats...
   root["temperature"] = (String)p_temperature;
   root["humidity"] = (String)p_humidity;
-  root.prettyPrintTo(Serial);
+  serializeJsonPretty(root, Serial);
   Serial.println("");
   /*
      {
@@ -68,8 +70,8 @@ void publishData(float p_temperature, float p_humidity) {
         "humidity": "43.70"
      }
   */
-  char data[200];
-  root.printTo(data, root.measureLength() + 1);
+  char data[128]; //MQTT_MAX_PACKET_SIZE
+  serializeJson(root, data, measureJson(root) + 1);
   client.publish(MQTT_SENSOR_TOPIC, data, true);
   yield();
 }
@@ -151,6 +153,6 @@ void loop() {
   Serial.println("INFO: Closing the Wifi connection");
   WiFi.disconnect();
 
-  ESP.deepSleep(SLEEPING_TIME_IN_SECONDS * 1000000, WAKE_RF_DEFAULT);
+  ESP.deepSleep(600e6);  // sleeping time 10min -> 600 (60 sec x 10)
   delay(500); // wait for deep sleep to happen
 }
