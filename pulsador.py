@@ -40,7 +40,7 @@ while True:
         if input_stateON == False:
             print('Boton ON pulsado2')
             logger.info('Boton ON pulsado2')
-            cmd_line = "/usr/bin/mosquitto_pub -h 192.168.33.131 -u davidmqtt -P haDamqtt3 -t '/house/switchCalderaCmd/' -m '1'"
+            cmd_line = "/usr/bin/mosquitto_pub -h <IP MQTT> -u <userMQTT> -P <passwdMQTT> -t '/house/switchCalderaCmd/' -m '1'"
             args = shlex.split(cmd_line)
             subprocess.Popen(args)
             time.sleep(1)
@@ -53,7 +53,7 @@ while True:
         if input_stateOFF == False:
             print('Boton OFF pulsado2')
             logger.info('Boton OFF pulsado2')
-            cmd_line = "/usr/bin/mosquitto_pub -h 192.168.33.131 -u davidmqtt -P haDamqtt3 -t '/house/switchCalderaCmd/' -m '0'"
+            cmd_line = "/usr/bin/mosquitto_pub -h <IP MQTT> -u <userMQTT> -P <passwdMQTT> -t '/house/switchCalderaCmd/' -m '0'"
             args = shlex.split(cmd_line)
             subprocess.Popen(args)
             time.sleep(1)
