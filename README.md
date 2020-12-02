@@ -12,6 +12,6 @@ My home-assistant.io configuration & NodeMCU files
 
 <b>Raspberry pi</b>
 - pulsador.py: Turn on/off the boiler when the raspberrypi button is pressed
-- dht22.py: DHT sensor reader
+- dht22.py: DHT sensor reader for raspberry pi 3
 
 ![Raspberry pi pinout](https://github.com/dalvarezs/homeassistant-files/raw/master/raspberry23_pinout.png)
