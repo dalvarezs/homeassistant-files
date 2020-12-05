@@ -6,11 +6,11 @@ import time
 import shlex, subprocess
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("pulsador")
 logger.setLevel(logging.INFO)
 
 # create a file handler
-handler = logging.FileHandler('pulsador.log')
+handler = logging.FileHandler('iot.log')
 handler.setLevel(logging.INFO)
 
 # create a logging format
