@@ -38,7 +38,7 @@
   alias: Calefaccion ON at 21:30 IF Mon/Wed
   trigger:
     platform: time
-    at: '19:30:00'
+    at: '21:30:00'
   condition:
   - condition: and
     conditions:
