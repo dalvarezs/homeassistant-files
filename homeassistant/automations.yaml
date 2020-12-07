@@ -1,0 +1,113 @@
+- id: caleccionOFF00H
+  alias: Caleccion OFF at 00:00H
+  trigger:
+    platform: time
+    at: '23:59:59'
+  condition:
+    condition: state
+    entity_id: switch.caldera
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.caldera
+- id: caleccionON2100H
+  alias: Calefaccion ON at 21:00
+  trigger:
+    platform: time
+    at: '21:00:00'
+  condition:
+    condition: state
+    entity_id: switch.caldera
+    state: 'off'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.caldera
+- id: caleON23H
+  alias: Calefaccion ON at 23:00
+  trigger:
+    platform: time
+    at: '23:00:00'
+  condition:
+    condition: state
+    entity_id: switch.caldera
+    state: 'off'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.caldera
+- id: caleONMonWed
+  alias: Calefaccion ON at 21:30 IF Mon/Wed
+  trigger:
+    platform: time
+    at: '19:30:00'
+  condition:
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - mon
+      - wed
+    - condition: state
+      entity_id: switch.caldera
+      state: 'off'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.caldera
+- id: caleONTuThuSun
+  alias: Calefaccion ON at 21:00 on Tue/Thu/Sun
+  trigger:
+    platform: time
+    at: '21:00:00'
+  condition:
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - tue
+      - thu
+      - sun
+    - condition: state
+      entity_id: switch.caldera
+      state: 'off'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.caldera
+- id: caleOFF185
+  alias: Calefaccion OFF si>18,5
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.temperature
+    above: 18.5
+    for:
+      minutes: 2
+  condition:
+    condition: state
+    entity_id: switch.caldera
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.caldera
+- id: '1603652903326'
+  alias: Tag tesr is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 764c6b16-3e92-4742-bdbc-3d3c98540b0a
+  condition: []
+  action:
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.caldera
+  mode: single
+- id: co2alert
+  alias: Notify apps when co2 is above 1000
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.co2
+    above: '1000'
+    for:
+      minutes: 2
+  action:
+  - service: notify.mobile_app_mi6
+    data:
+      message: CO2 Alert! Above 1000
+  mode: single
