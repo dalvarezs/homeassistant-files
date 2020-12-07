@@ -1,0 +1,63 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+# Mosquitto
+mqtt:
+  broker: [redacted] # No se puede poner 127.0.0.1 porque hassio esta dockerizado
+  port: [redacted]
+  client_id: [redacted]
+  username: [redacted]
+  password: [redacted]
+
+
+# https://www.home-assistant.io/components/sensor.mqtt/
+# https://github.com/mertenats/open-home-automation/tree/master/ha_mqtt_sensor_dht22
+# https://github.com/maarten-pennings/CCS811
+sensor:
+  - platform: mqtt
+    state_topic: 'house/salon'
+    name: 'Temperature'
+    unit_of_measurement: '°C'
+    value_template: '{{ value_json.temperature }}'
+
+  - platform: mqtt
+    state_topic: 'house/salon'
+    name: 'Humidity'
+    unit_of_measurement: '%'
+    value_template: '{{ value_json.humidity }}'
+
+  - platform: mqtt
+    state_topic: 'house/salon'
+    name: 'Moisture'
+    unit_of_measurement: '%'
+    value_template: '{{ value_json.moisture }}'
+
+  - platform: mqtt
+    state_topic: 'house/salon/ccs811'
+    name: 'CO2'
+    unit_of_measurement: 'ppm'
+    value_template: '{{ value_json.co2_ppm}}'
+
+switch:
+  - platform: mqtt
+    name: "Caldera"
+    state_topic: "/house/switchCaldera/"
+    command_topic: "/house/switchCalderaCmd/"
+    payload_on: "1"
+    payload_off: "0"
+    qos: 0
+    retain: true
+
