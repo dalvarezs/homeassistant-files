@@ -3,6 +3,7 @@ My home-assistant.io configuration & NodeMCU files
 
 <b>Home-assitant.io</b>
 - configuration.yaml: Backup configuration file
+- automations.yaml: Backup automatations file
 
 <b>NodeMCU</b>
 - dht22-mqtt.ino: sketch file for ESP8266 NodeMCU + DHT22 temperature sensor. MQTT for sending temperature values
