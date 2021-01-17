@@ -61,3 +61,24 @@ switch:
     qos: 0
     retain: true
 
+  - platform: mqtt
+    name: "ESP-Lavavajillas"
+    state_topic: "ESPURNA-44F3CB/relay/0"
+    command_topic: "ESPURNA-44F3CB/relay/0/set"
+    payload_on: 1
+    payload_off: 0
+    optimistic: false
+    qos: 0
+    retain: true
+
+
+light:
+  - platform: xiaomi_miio
+    name: Xiaomi Philips E27
+    host: [redacted]
+    token: [redacted]
+    model: philips.light.bulb
+
+pvpc_hourly_pricing:
+  - name: PVPC
+    tariff: discrimination 
