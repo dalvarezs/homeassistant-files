@@ -1,3 +1,4 @@
+
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
@@ -14,46 +15,21 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
-# Mosquitto
-mqtt:
-  broker: [redacted] # No se puede poner 127.0.0.1 porque hassio esta dockerizado
-  port: [redacted]
-  client_id: [redacted]
-  username: [redacted]
-  password: [redacted]
-
+# Mosquitto ##se configura via GUI en 2023.6
+#mqtt:
+#  broker: [redacted]
+#  port: [redacted]
+#  client_id: [redacted]
+#  username: [redacted] 
+#  password: [redacted]
 
 # https://www.home-assistant.io/components/sensor.mqtt/
 # https://github.com/mertenats/open-home-automation/tree/master/ha_mqtt_sensor_dht22
 # https://github.com/maarten-pennings/CCS811
-sensor:
-  - platform: mqtt
-    state_topic: 'house/salon'
-    name: 'Temperature'
-    unit_of_measurement: '°C'
-    value_template: '{{ value_json.temperature }}'
 
-  - platform: mqtt
-    state_topic: 'house/salon'
-    name: 'Humidity'
-    unit_of_measurement: '%'
-    value_template: '{{ value_json.humidity }}'
-
-  - platform: mqtt
-    state_topic: 'house/salon'
-    name: 'Moisture'
-    unit_of_measurement: '%'
-    value_template: '{{ value_json.moisture }}'
-
-  - platform: mqtt
-    state_topic: 'house/salon/ccs811'
-    name: 'CO2'
-    unit_of_measurement: 'ppm'
-    value_template: '{{ value_json.co2_ppm}}'
-
-switch:
-  - platform: mqtt
-    name: "Caldera"
+mqtt:
+  switch:
+  - name: "Caldera"
     state_topic: "/house/switchCaldera/"
     command_topic: "/house/switchCalderaCmd/"
     payload_on: "1"
@@ -61,8 +37,7 @@ switch:
     qos: 0
     retain: true
 
-  - platform: mqtt
-    name: "ESP-Lavavajillas"
+  - name: "ESP-Lavavajillas"
     state_topic: "ESPURNA-44F3CB/relay/0"
     command_topic: "ESPURNA-44F3CB/relay/0/set"
     payload_on: 1
@@ -70,15 +45,80 @@ switch:
     optimistic: false
     qos: 0
     retain: true
+    icon: mdi:sprinkler
+
+  - name: "IrrigationB"
+    state_topic: "/garden/irrigation/relay1/"
+    command_topic: "/garden/irrigationCmd/relay1/"
+    payload_on: "0"
+    payload_off: "1"
+    qos: 0
+    retain: true
+    icon: mdi:sprinkler
 
 
-light:
-  - platform: xiaomi_miio
-    name: Xiaomi Philips E27
-    host: [redacted]
-    token: [redacted]
-    model: philips.light.bulb
+  - name: "IrrigationA"
+    state_topic: "/garden/irrigation/relay2/"
+    command_topic: "/garden/irrigationCmd/relay2/"
+    payload_on: "0"
+    payload_off: "1"
+    qos: 0
+    retain: true
+    icon: mdi:sprinkler
 
-pvpc_hourly_pricing:
-  - name: PVPC
-    tariff: discrimination 
+  - name: "IrrigationE"
+    state_topic: "/garden/irrigation/relay3/"
+    command_topic: "/garden/irrigationCmd/relay3/"
+    payload_on: "0"
+    payload_off: "1"
+    qos: 0
+    retain: true
+    icon: mdi:sprinkler
+
+  - name: "IrrigationC"
+    state_topic: "/garden/irrigation/relay4/"
+    command_topic: "/garden/irrigationCmd/relay4/"
+    payload_on: "0"
+    payload_off: "1"
+    qos: 0
+    retain: true
+    icon: mdi:sprinkler
+
+  - name: "IrrigationD"
+    state_topic: "/garden/irrigation/relay5/"
+    command_topic: "/garden/irrigationCmd/relay5/"
+    payload_on: "0"
+    payload_off: "1"
+    qos: 0
+    retain: true
+    icon: mdi:sprinkler
+
+  - name: "IrrigationF"
+    state_topic: "/garden/irrigation/relay6/"
+    command_topic: "/garden/irrigationCmd/relay6/"
+    payload_on: "0"
+    payload_off: "1"
+    qos: 0
+    retain: true
+    icon: mdi:sprinkler
+
+  sensor:
+  - state_topic: 'house/salon'
+    name: 'Temperature'
+    unit_of_measurement: '°C'
+    value_template: '{{ value_json.temperature }}'
+
+  - state_topic: 'house/salon'
+    name: 'Humidity'
+    unit_of_measurement: '%'
+    value_template: '{{ value_json.humidity }}'
+
+  - state_topic: 'house/salon'
+    name: 'Moisture'
+    unit_of_measurement: '%'
+    value_template: '{{ value_json.moisture }}'
+
+  - state_topic: 'house/salon/ccs811'
+    name: 'CO2'
+    unit_of_measurement: 'ppm'
+    value_template: '{{ value_json.co2_ppm}}'
